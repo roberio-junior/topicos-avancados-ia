@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cliente Web do Ollama</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Cliente Web do Ollama</h1>
+      <p>Digite uma pergunta para o modelo executado localmente.</p>
+
+      <form id="prompt-form">
+        <label for="prompt">Prompt</label>
+        <textarea
+          id="prompt"
+          name="prompt"
+          rows="6"
+          maxlength="2000"
+          placeholder="Ex.: explique o que é uma API REST."
+          required
+        ></textarea>
+
+        <div class="actions">
+          <span id="counter">0/2000</span>
+          <button id="submit-button" type="submit">Enviar</button>
+        </div>
+      </form>
+
+      <p id="status" role="status" aria-live="polite"></p>
+
+      <section aria-labelledby="response-title">
+        <h2 id="response-title">Resposta</h2>
+        <pre id="response">A resposta será exibida aqui.</pre>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
