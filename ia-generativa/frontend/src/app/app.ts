@@ -8,4 +8,4 @@ import { ChatStreamComponent } from './ia/chat-stream/chat-stream.component';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {}
+export class App {} 

@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IaStreamService } from './ia-stream.service';
-
+import { IaStreamService } from '../ia-stream.service';
+ 
 @Component({
   selector: 'app-chat-stream',
   standalone: true,

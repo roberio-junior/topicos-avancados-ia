@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+ 
 export interface StreamEvent {
   type: 'delta' | 'done' | 'error';
   content?: string;
