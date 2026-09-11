@@ -1,0 +1,25 @@
+<form (ngSubmit)="enviar()">
+  <label for="mensagem">Mensagem</label>
+  <textarea
+    id="mensagem"
+    name="mensagem"
+    [(ngModel)]="mensagem"
+    maxlength="2000"
+    required
+  ></textarea>
+
+  <button type="submit" [disabled]="status() === 'loading'">
+    Enviar
+  </button>
+
+  <button
+    type="button"
+    (click)="cancelar()"
+    [disabled]="status() !== 'loading'"
+  >
+    Cancelar
+  </button>
+</form>
+
+<p>Status: {{ status() }}</p>
+<pre aria-live="polite">{{ resposta() }}</pre>

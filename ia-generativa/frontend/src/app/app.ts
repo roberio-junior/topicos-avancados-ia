@@ -1,11 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { ChatStreamComponent } from './ia/chat-stream/chat-stream.component';
 
 @Component({
-  imports: [],
   selector: 'app-root',
-  styleUrl: './app.css',
+  standalone: true,
+  imports: [ChatStreamComponent],
   templateUrl: './app.html',
+  styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('frontend');
-}
+export class App {}
