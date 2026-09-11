@@ -1,8 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+
 import {
   GerarRespostaOutput,
   MODELO_PROVIDER,
 } from './providers/modelo.provider';
+
 import type { ModeloProvider } from './providers/modelo.provider';
 
 @Injectable()
@@ -16,9 +18,29 @@ export class IaService {
     const mensagemNormalizada = mensagem.trim();
 
     if (!mensagemNormalizada) {
-      throw new BadRequestException('A mensagem não pode conter apenas espaços');
+      throw new BadRequestException(
+        'A mensagem não pode conter apenas espaços',
+      );
     }
 
     return this.modelo.gerar({ mensagem: mensagemNormalizada });
+  }
+
+  gerarStream(
+    mensagem: string,
+    signal: AbortSignal,
+  ): AsyncIterable<string> {
+    const mensagemNormalizada = mensagem.trim();
+
+    if (!mensagemNormalizada) {
+      throw new BadRequestException(
+        'A mensagem não pode conter apenas espaços',
+      );
+    }
+
+    return this.modelo.gerarStream({
+      mensagem: mensagemNormalizada,
+      signal,
+    });
   }
 }
