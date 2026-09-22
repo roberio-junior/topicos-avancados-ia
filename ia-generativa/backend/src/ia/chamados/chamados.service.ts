@@ -1,13 +1,23 @@
-import { BadGatewayException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import {
   MODELO_PROVIDER,
   type ModeloProvider,
-} from '../../ia/providers/modelo.provider';
+} from '../providers/modelo.provider';
 import {
-  CHAMADO_CATEGORIAS,
-  isCategoriaPermitida,
-  normalizarCategoria,
+  isChamadoCategoria,
+  type ChamadoCategoria,
 } from './chamado-categoria';
+import { buildClassificacaoPrompt } from './classificacao.prompt';
+
+export interface ClassificacaoResultado {
+  texto: string;
+  categoria: ChamadoCategoria;
+  modelo: string;
+}
 
 @Injectable()
 export class ChamadosService {
@@ -16,46 +26,20 @@ export class ChamadosService {
     private readonly modelo: ModeloProvider,
   ) {}
 
-  async classificar(texto: string) {
-    const textoNormalizado = texto.trim();
+  async classificar(textoOriginal: string): Promise<ClassificacaoResultado> {
+    const texto = textoOriginal.trim();
+    const prompt = buildClassificacaoPrompt(texto);
+    const resultado = await this.modelo.gerar({ mensagem: prompt });
+    const categoria = resultado.resposta.trim().toUpperCase();
 
-    const resultado = await this.modelo.gerar({
-      mensagem:
-        `Você é um classificador de chamados de uma instituição de ensino.
-
-` +
-        `Classifique o chamado em EXATAMENTE UMA destas categorias:
-
-` +
-        `ACESSO: problemas com senha, login, autenticação, bloqueio ou acesso a sistemas e portais.
-` +
-        `FINANCEIRO: problemas relacionados a cobrança, pagamento, boleto, mensalidade ou reembolso.
-` +
-        `MATRICULA: problemas relacionados a matrícula, cancelamento de disciplina, disciplina, turma ou período letivo.
-` +
-        `DOCUMENTOS: solicitações relacionadas a declaração, histórico escolar, certificado ou comprovante.
-` +
-        `OUTROS: qualquer assunto que não se encaixe nas categorias anteriores.
-
-` +
-        `Categorias permitidas: ${CHAMADO_CATEGORIAS.join(', ')}.
-
-` +
-        `Responda SOMENTE com o nome da categoria, sem explicações, pontuação ou texto adicional.
-
-` +
-        `Chamado:
-${textoNormalizado}`,
-    });
-
-    const categoria = normalizarCategoria(resultado.resposta);
-
-    if (!isCategoriaPermitida(categoria)) {
-      throw new BadGatewayException('O modelo retornou uma categoria inválida');
+    if (!isChamadoCategoria(categoria)) {
+      throw new BadGatewayException(
+        'O modelo retornou uma categoria inválida',
+      );
     }
 
     return {
-      texto: textoNormalizado,
+      texto,
       categoria,
       modelo: resultado.modelo,
     };

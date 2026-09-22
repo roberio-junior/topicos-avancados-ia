@@ -6,12 +6,13 @@ export const CHAMADO_CATEGORIAS = [
   'OUTROS',
 ] as const;
 
-export type ChamadoCategoria = (typeof CHAMADO_CATEGORIAS)[number];
+export type ChamadoCategoria =
+  (typeof CHAMADO_CATEGORIAS)[number];
 
-export function isCategoriaPermitida(valor: string): valor is ChamadoCategoria {
-  return (CHAMADO_CATEGORIAS as readonly string[]).includes(valor);
-}
-
-export function normalizarCategoria(resposta: string): string {
-  return resposta.trim().toUpperCase();
+export function isChamadoCategoria(
+  value: string,
+): value is ChamadoCategoria {
+  return CHAMADO_CATEGORIAS.includes(
+    value as ChamadoCategoria,
+  );
 }
