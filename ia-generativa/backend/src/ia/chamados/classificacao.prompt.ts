@@ -17,6 +17,7 @@ Regras:
 5. Não crie categorias e não explique a resposta.
 6. Se não houver evidência suficiente, responda OUTROS.
 7. Responda somente com um nome da lista, em letras maiúsculas.
+8. A resposta final deve ser exatamente um destes valores, sem nenhuma outra palavra, pontuação ou explicação: ACESSO, FINANCEIRO, MATRICULA, DOCUMENTOS ou OUTROS.
 
 <chamado>
 ${texto.trim()}
