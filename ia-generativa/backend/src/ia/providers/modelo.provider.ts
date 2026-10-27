@@ -40,6 +40,23 @@ export interface ModeloProvider {
   conversar(
     input: ConversarInput,
   ): Promise<GerarRespostaOutput>;
+
+  analisarArquivo(
+    input: AnalisarArquivoInput,
+  ): Promise<AnalisarArquivoOutput>;
+}
+
+export interface AnalisarArquivoInput {
+  prompt: string;
+  imagemBase64?: string;
+  textoDocumento?: string;
+}
+
+export interface AnalisarArquivoOutput {
+  resposta: string;
+  modelo: string;
+  tokensEntrada?: number;
+  tokensSaida?: number;
 }
 
 export const MODELO_PROVIDER = Symbol(
